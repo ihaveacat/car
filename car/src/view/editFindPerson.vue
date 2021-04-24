@@ -36,7 +36,7 @@ export default {
         //判断人员id
         if (this.$route.query.userId) {
             //无车
-            if (1 != 2) {
+            if (1 != 1) {
                 Dialog.confirm({
                     // title: "标题",
                     message: "你还没有登记车哎！还不整一辆去？"
