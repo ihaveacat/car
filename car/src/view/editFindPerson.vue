@@ -9,6 +9,7 @@
 //引入资源
 import Vue from 'vue';
 import Vant from 'vant';
+import { Dialog } from 'vant';
 Vue.use(Vant);
 import 'vant/lib/index.css';
 // import * as util from '@/assets/util.js';
@@ -24,22 +25,34 @@ export default {
     methods: {
         //返回
         back() {
-            this.$router.push({path: '/', param: {index: 0}});
-        }
+            this.$router.push({path: '/'});
+        },
+        confirmCar() {
+            
+        },
     },
     //创建时函数
     created() {
         //判断人员id
         if (this.$route.query.userId) {
-            //查询是否有车
-            
+            //无车
+            if (1 != 2) {
+                Dialog.confirm({
+                    // title: "标题",
+                    message: "你还没有登记车哎！还不整一辆去？"
+                }).then(() => {//确认
+                    this.$router.push({path: '/carMaintain'});
+                }).catch(() => {//取消
+                    this.$router.push({path: '/'});
+                })
+            }
         } else {
-
+            //没有id错误
         }
     },
     //渲染完函数
     mounted() {
-
+        
     }
 }
 </script>

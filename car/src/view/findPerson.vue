@@ -105,7 +105,7 @@ export default {
     },
     //渲染完函数
     mounted() {
-        Notify({message: '点击列表加入', duration: 3000});
+        Notify({message: '点击列表加入', duration: 1000});
     }
 }
 </script>
