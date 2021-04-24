@@ -37,7 +37,7 @@ export default {
       this.$router.push({path: '/'});
     },
     regist() {
-
+      console.log(123)
     }
   },
   //创建时函数
