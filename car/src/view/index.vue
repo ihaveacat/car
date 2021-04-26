@@ -14,6 +14,7 @@
 //引入资源
 import Vue from 'vue';
 import Vant from 'vant';
+import userApi from '@/api/userApi'
 Vue.use(Vant);
 import 'vant/lib/index.css';
 
@@ -47,6 +48,33 @@ export default {
     if (1 == 2) {
       this.$router.push({path: '/login'});
     }
+    //测试方法可删除
+    userApi.save({id: 123, username: '保存用户'}).then(res => {
+      // console.log(res)
+    }).catch(err => {
+      console.log('error')
+    });
+    userApi.removeById(999).then(res => {
+      // console.log(res)
+    }).catch(err => {
+      console.log(err)
+    });
+    userApi.updateUser({id: 123, username: '修改用户'}).then(res => {
+      // console.log(res)
+    }).catch(err => {
+      console.log(err)
+    });
+    userApi.findUserById(999).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    });
+    // userApi.findUserList(1, 5, {username: '分页查询'}).then(res => {
+    //   console.log(res)
+    // }).catch(err => {
+
+    // });
+    //测试方法可删除
   },
   mounted() {
 
