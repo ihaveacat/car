@@ -2,7 +2,7 @@
 import request from '@/utils/request'
 
 export default {
-    //根据id获取用户1
+    //根据id获取用户
     getUserById(user) {
         return request({
             url: 'users/getUserById',
