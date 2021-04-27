@@ -2,10 +2,10 @@
 import request from '@/utils/request'
 
 export default {
-    //保存用户
-    save(user) {
+    //根据id获取用户
+    getUserById(user) {
         return request({
-            url: 'users/save',
+            url: 'users/getUserById',
             method: 'post',
             data: user
         })

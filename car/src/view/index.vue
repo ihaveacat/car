@@ -49,7 +49,7 @@ export default {
       this.$router.push({path: '/login'});
     }
     //测试方法可删除
-    userApi.save({id: 123, username: '保存用户', otherProperties: '其他属性'}).then(res => {
+    userApi.getUserById({id: 2}).then(res => {
       console.log(res);
     }).catch(err => {
       console.log('error')
