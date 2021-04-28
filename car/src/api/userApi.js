@@ -3,11 +3,11 @@ import request from '@/utils/request'
 
 export default {
     //根据id获取用户
-    getUserById(user) {
+    findUserById(params) {
         return request({
-            url: 'users/getUserById',
+            url: 'users/findUserById',
             method: 'post',
-            data: user
+            data: params
         })
     },
 }

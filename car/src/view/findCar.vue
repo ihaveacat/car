@@ -15,7 +15,7 @@ import Vue from 'vue';
 import Vant from 'vant';
 Vue.use(Vant);
 import 'vant/lib/index.css';
-import * as util from '@/assets/util.js';
+import * as util from '@/utils/common.js';
 
 export default {
     //数据

@@ -3,7 +3,7 @@
  * 日期格式化 2020-02-02
  * @param {*} date 
  */
-export const dateFormatYMD = function(date) {
+ export const dateFormatYMD = function(date) {
     if (date == void(0)) {
         return;
     }

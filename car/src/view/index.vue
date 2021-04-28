@@ -49,7 +49,7 @@ export default {
       this.$router.push({path: '/login'});
     }
     //测试方法可删除
-    userApi.getUserById({id: 2}).then(res => {
+    userApi.findUserById({id: 1}).then(res => {
       console.log(res);
     }).catch(err => {
       console.log('error')

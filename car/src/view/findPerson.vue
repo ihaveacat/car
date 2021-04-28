@@ -15,7 +15,7 @@ import Vue from 'vue';
 import Vant from 'vant';
 import { Notify } from 'vant';
 Vue.use(Vant);
-import * as util from '@/assets/util.js';
+import * as util from '@/utils/common.js';
 import 'vant/lib/index.css';
 
 export default {
