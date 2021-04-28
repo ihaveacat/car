@@ -1,8 +1,7 @@
-<!-- 找人 -->
 <template>
     <div style="white-space: pre;">
         <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad()">
+            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" :offset="300">
                 <van-cell center v-for="item in list" :key="item.id" :title="item.title"
                     :label="item.info" :value="item.seat" :value-class="item.style" @click.native="join(item.allSeat, item.occupySeat)"/>
             </van-list>
@@ -14,6 +13,7 @@
 import Vue from 'vue';
 import Vant from 'vant';
 import { Notify } from 'vant';
+import API from '@/api/findPerson'
 Vue.use(Vant);
 import * as util from '@/utils/common.js';
 import 'vant/lib/index.css';
@@ -24,100 +24,70 @@ export default {
         return {
             list: [],
             loading: false,
-            finished: '',
+            finished: false,
             refreshing: false,
-            lists: [],//delete
+            page: 0,
+            limit: 8
         }
     },
-    //方法
+    created() {
+
+    },
     methods: {
-        //初始化数据
-        init() {
+        onLoad(isFlush) {
             let that = this;
-            //查询数据
-            if (1 == 1) {
-                for (var i=1;i<5;i++) {
-                    this.lists.push({id: i,
-                        name: '姓名姓名姓名姓名'+i,
-                        tel: "1590000000"+i,
-                        color: "红色",
-                        carNo: 'P8G'+i,
-                        startPoint: "地点地点地点地点" + i,
-                        startTime: util.dateFormatZHMS(new Date()),
-                        endPoint: '地点地点地点地点'+i,
-                        theWay: '地点地点地点地点地点地点地点地点地点地点地点地点'+i,
-                        allSeat: '5',
-                        occupySeat: i == 2 ? '5' : '3',
-                        // style: "color:" + ((allSeat > occupySeat) ? "green" : "red"),
+            if (this.refreshing) {
+                this.list = [];
+                this.refreshing = false;
+            }
+            if (isFlush && isFlush == 1) {
+                this.page += 8;
+            }
+            console.log(this.page)
+            //后台加载数据
+            API.pageFindPersonList({page: this.page, limit: this.limit}).then(res => {
+                if (res.data && res.data.length > 0) {
+                    var arr = res.data;
+                    arr.forEach(function(item) {
+                        that.list.push({
+                            title: "["+item.username+"]\xa0\xa0\xa0\xa0\xa0\xa0车色："+item.carColor+"\xa0\xa0\xa0\xa0\xa0\xa0车尾号："+item.carNum,
+                            info: "起点："+item.startPoint+"\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0发车时间："+item.startTime+
+                                "\n终点："+item.endPoint+"\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0电话："+item.tel+
+                                "\n途径："+item.theWay,
+                            seat: "("+item.fullSeat+"/"+3+")",
+                            style: ((item.fullSeat > 3) ? "occupySeat" : "fullSeat")
                         });
+                    });
                 }
-                 this.lists.forEach(function(item) {
-                     item.title = "["+item.name+"]\xa0\xa0\xa0\xa0\xa0\xa0车色："+item.color+"\xa0\xa0\xa0\xa0\xa0\xa0车尾号："+item.carNo;
-                     item.info = "起点："+item.startPoint+"\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0发车时间："+item.startTime+
-                        "\n终点："+item.endPoint+"\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0电话："+item.tel+
-                        "\n途径："+item.theWay;
-                     item.seat = "("+item.allSeat+"/"+item.occupySeat+")";
-                     item.style = ((item.allSeat > item.occupySeat) ? "occupySeat" : "fullSeat");
-                     that.list.push(item);
-                 });
+                this.loading = false;
+            }).catch(err => {
+
+            });
+            //加载到100条后停止加载
+            console.log('onLoad()已加载'+this.list.length+'条')
+            if (this.list.length % 8 != 0) {
+                this.finished = true;
             }
         },
-        //下拉刷新
         onRefresh() {
+            console.log('onRefresh()')
             // 清空列表数据
+            //设置分页条数
+            this.page = 0;
+            this.limit = 8;
             this.finished = false;
             // 重新加载数据
             // 将 loading 设置为 true，表示处于加载状态
             this.loading = true;
-            this.onLoad();
+            this.onLoad(1);
         },
-        //加载数据
-        onLoad() {
-            if (this.refreshing) {
-                // this.list = [];
-                this.refreshing = false;
-            }
-            // for (var i=1;i<5;i++) {
-            //     this.list.push({id: i,
-            //         name: '[姓名]'+i,
-            //         startPoint: "起点" + i,
-            //         startTime: util.dateFormat(new Date()),
-            //         endPoint: '终点'+i,
-            //         });
-            // }
-            this.loading = false;
-            this.finished  = true;
-        },
-        //点击加入
-        join(allSeat, occupySeat) {
-            //保险起见，从后台查询数据做判断是否满员
-            if (allSeat <= occupySeat) {
-                Notify({message: '此车已满员，请刷新列表！', duration: 2000});
-            } else {
-                //加入逻辑
-                console.log("join ok!");
-            }
+        join(x, y) {
+
         }
     },
-    //创建时函数
-    created() {
-        this.init();
-    },
-    //渲染完函数
-    mounted() {
-        Notify({message: '点击列表加入', duration: 1000});
-    }
 }
 </script>
 <!-- 样式 -->
 <style>
-    .fullSeat {
-        color: red;
-    }
-    .occupySeat {
-        color: rgb(2, 248, 2);
-    }
-    .van-notify--danger {
-        background-color: #03a9f4;
-    }
+    
 </style>

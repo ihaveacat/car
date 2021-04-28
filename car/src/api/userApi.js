@@ -2,12 +2,11 @@
 import request from '@/utils/request'
 
 export default {
-    //根据id获取用户
-    findUserById(params) {
+    //获取session
+    getToken() {
         return request({
-            url: 'users/findUserById',
-            method: 'post',
-            data: params
+            url: 'users/getToken',
+            method: 'post'
         })
     },
 }

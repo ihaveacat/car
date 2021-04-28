@@ -44,17 +44,14 @@ export default {
     }
   },
   created() {
-    //判断session，没有session跳转到登录页
-    if (1 == 2) {
-      this.$router.push({path: '/login'});
-    }
-    //测试方法可删除
-    userApi.findUserById({id: 1}).then(res => {
-      console.log(res);
+    //判断token，没有token跳转到登录页
+    userApi.getToken().then(res => {
+      if (!res.data) {
+        this.$router.push({path: '/login'});
+      }
     }).catch(err => {
-      console.log('error')
+      //请求后台错误处理
     });
-    //测试方法可删除
   },
   mounted() {
 
