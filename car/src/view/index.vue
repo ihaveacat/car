@@ -46,7 +46,7 @@ export default {
   created() {
     //判断token，没有token跳转到登录页
     userApi.getToken().then(res => {
-      if (!res.data) {
+      if (res.data) {
         this.$router.push({path: '/login'});
       }
     }).catch(err => {

@@ -31,6 +31,12 @@ export default new Router({
       name: 'login',
       component: () => import('@/view/login')
     },
+    //注册页
+    {
+      path: '/userRegistration',
+      name: 'userRegistration',
+      component: () => import('@/view/userRegistration')
+    },
     //发布求人信息
     {
       path: '/editFindPerson',
