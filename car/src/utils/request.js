@@ -3,9 +3,9 @@ import axios from 'axios'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: process.env.BASE_API, // api 的 base_url
-    timeout: 5000 // 请求超时时间
-  });
+  baseURL: process.env.BASE_API, // api 的 base_url
+  timeout: 5000 // 请求超时时间
+});
 
 // request拦截器,请求前拦截处理
 // service.interceptors.request.use(

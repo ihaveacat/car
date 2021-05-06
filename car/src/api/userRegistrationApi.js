@@ -6,7 +6,7 @@ export default {
         return request({
             url: 'users/userRegistration',
             method: 'post',
-            params: params
+            data: params
         });
     }
 }

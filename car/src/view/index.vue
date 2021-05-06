@@ -47,10 +47,11 @@ export default {
     //判断token，没有token跳转到登录页
     userApi.getToken().then(res => {
       if (res.data) {
-        this.$router.push({path: '/login'});
+        // this.$router.push({path: '/login'});
       }
     }).catch(err => {
       //请求后台错误处理
+      console.log("500")
     });
   },
   mounted() {

@@ -2,11 +2,20 @@
 import request from '@/utils/request'
 
 export default {
-    //获取session
+    //登录
+    login(data) {
+        return request({
+            url: 'users/login',
+            method: 'post',
+            params: data
+        })
+    },
+
+    //获取token
     getToken() {
         return request({
             url: 'users/getToken',
             method: 'post'
-        })
+        });
     },
 }
