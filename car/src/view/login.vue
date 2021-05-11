@@ -46,13 +46,8 @@ export default {
     //输入正确后处理
     onSubmit() {
       userApi.login({username: this.username, password: this.password}).then(res => {
-        if (res.data) {
-          cookie.set('token', res.data.token);//, {domain: 'localhost'}
-          this.$router.push({path: '/'});
-        } else {
-          //登录错误
-        }
-        
+        cookie.set('token', res.data.token);//, {domain: 'localhost'}
+        this.$router.push({path: '/'});
       });
     },
     //跳转注册页

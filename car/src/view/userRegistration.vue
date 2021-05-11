@@ -20,6 +20,7 @@
 //引入资源
 import Vue from 'vue';
 import Vant from 'vant';
+import { Toast } from 'vant';
 import userApi from '@/api/userRegistrationApi';
 Vue.use(Vant);
 import 'vant/lib/index.css';
@@ -45,9 +46,8 @@ export default {
         onSubmit() {
             // var newUser = JSON.stringify(this.user);
             userApi.userRegistration({username: this.username, password: this.password, tel: this.tel}).then(res => {
-                
-            }).catch(err => {
-                console.log("后台错误")
+                Toast.success('注册成功！');
+                this.$router.push({path: '/login'});
             });
         }
     },

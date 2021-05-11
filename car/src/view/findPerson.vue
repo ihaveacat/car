@@ -45,8 +45,8 @@ export default {
             }
             //后台加载数据
             API.pageFindPersonList({page: this.page, limit: this.limit}).then(res => {
-                if (res.data && res.data.length > 0) {
-                    var arr = res.data;
+                if (res.data.data && res.data.data.length > 0) {
+                    var arr = res.data.data;
                     arr.forEach(function(item) {
                         that.list.push({
                             title: "["+item.username+"]\xa0\xa0\xa0\xa0\xa0\xa0车色："+item.carColor+"\xa0\xa0\xa0\xa0\xa0\xa0车尾号："+item.carNum,
@@ -65,9 +65,7 @@ export default {
                 if (this.list.length >= 50) {
                     this.finished = true;
                 }
-            }).catch(err => {
-                console.log("后台加载数据失败。。。")
-            });
+            })
         },
         //屏幕下拉出发函数
         onRefresh() {
@@ -90,7 +88,7 @@ export default {
         }
     },
     mounted() {
-        Notify({message: '点击列表加入', duration: 1000});
+        Notify({message: '点击列表加入', duration: 500});
     }
 }
 </script>
