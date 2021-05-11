@@ -1,32 +1,46 @@
 //请求父接口
 import axios from 'axios'
+import { Toast } from 'vant';
 
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // 定义后端api前缀
-  timeout: 5000 // 请求超时时间
+  timeout: 8000 // 请求超时时间(8秒)
 });
 
 // request拦截器,请求前拦截处理
-service.interceptors.request.use(
-  config => {
+// service.interceptors.request.use(
+  // config => {
 //     if (store.getters.token) {
 //       // 让每个请求携带自定义token 请根据实际情况自行修改
 //       config.headers['X-Token'] = getToken();
 //     }
 //     return config;
-  },
-  error => {
+  // },
+  // error => {
 //     //错误处理
 //     console.log(error);
 //     Promise.reject(error);
-  }
-);
+  // }
+// );
 
 // response 拦截器，后台响应后处理
 service.interceptors.response.use(
+  //后台响应处理
+  response => {
+    const res = response.data;
+    if (res.code !== 20000) {
+      Toast.fail(res.message);
+    } else {
+      return response.data;
+    }
+  },
+  //http错误处理
+  error => {
+    return Promise.reject(error);
+  }
   // response => {
-  //   //code为非20000是抛错 可结合自己业务进行修改
+  // //   //code为非20000是抛错 可结合自己业务进行修改
   //   const res = response.data
   //   if (res.code !== 20000) {
   //     Message({

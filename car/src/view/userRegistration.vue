@@ -43,11 +43,11 @@ export default {
             this.$router.push({path: '/login'});
         },
         onSubmit() {
-            var newUser = JSON.stringify(this.user);
+            // var newUser = JSON.stringify(this.user);
             userApi.userRegistration({username: this.username, password: this.password, tel: this.tel}).then(res => {
-                console.log(res)
+                
             }).catch(err => {
-
+                console.log("后台错误")
             });
         }
     },
