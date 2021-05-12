@@ -2,25 +2,27 @@
 import axios from 'axios'
 import { Toast } from 'vant';
 import cookie from 'js-cookie';
-// import router from '@/router/index'
+import router from '@/router/index'
 
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // 定义后端api前缀
-  timeout: 10000 // 请求超时时间(10秒)
+  // headers:{'X-Requested-with':'XMLHttpRequest'},
+  // headers: {'Content-Type': "application/json;charset=utf-8"},
+  timeout: 1000000 // 请求超时时间(10秒)
 });
 
 // request拦截器,请求前拦截处理
 service.interceptors.request.use(
   config => {
     if (cookie.get("token")) {
-      config.headers['X-Token'] = cookie.get("token");
-      // request.headers.set('x-token', tokens);
+      // config.headers.accessToken = cookie.get("token");
+      // config.headers['token'] = cookie.get("token");
+      // config.headers.Authorization = cookie.get("token");
+      // config.headers['content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+      // request.headers.set('token', cookie.get("token"));
     }
-    config.headers['X-Token'] = "*";
     return config;
-    // this.$router.push({path: '/'});
-    // router.replace({path:"/"});
   },
   error => {
     //错误处理
@@ -36,6 +38,10 @@ service.interceptors.response.use(
     const res = response.data;
     if (res.code !== 20000) {
       Toast.fail(res.message);
+      //token无效处理
+      if (res.code == 23004) {
+        router.push({path: '/login'})
+      }
       return Promise.reject('error');
     } else {
       return response.data;

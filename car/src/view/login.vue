@@ -14,11 +14,9 @@
         :rules="[{pattern: userPattern, message: '请输入正确内容'}]" />
       <van-field v-model="password" type="password" name="password" label="密码" placeholder="6~12个字符"
         :rules="[{pattern: passwordPattern, message: '请输入正确内容'}]" />
-      <div class="btn">
-        <van-button type="primary" text="登录" round block native-type="submit" />
-        <van-button type="primary" text="注册" round block @click.native="regist"/>
-      </div>
+      <van-button class="btn" type="primary" text="登录" round block native-type="submit" />
     </van-form>
+    <van-button class="btn" type="primary" text="注册" round block @click.native="regist"/>
   </div>
 </template>
 
@@ -27,7 +25,7 @@ import userApi from '@/api/userApi'
 import Vue from 'vue';
 import Vant from 'vant';
 import { Toast } from 'vant';
-import cookie from 'js-cookie';
+import auth from '@/utils/auth.js';
 Vue.use(Vant);
 import 'vant/lib/index.css';
 
@@ -46,7 +44,7 @@ export default {
     //输入正确后处理
     onSubmit() {
       userApi.login({username: this.username, password: this.password}).then(res => {
-        cookie.set('token', res.data.token);//, {domain: 'localhost'}
+        auth.setToken(res.data.token);
         this.$router.push({path: '/'});
       });
     },
@@ -74,6 +72,6 @@ export default {
 
 <style>
   .btn {
-    margin: 16px;
+    margin-top: 16px;
   }
 </style>
