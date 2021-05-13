@@ -6,22 +6,19 @@ import router from '@/router/index'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: process.env.BASE_API, // 定义后端api前缀
-  // headers:{'X-Requested-with':'XMLHttpRequest'},
-  // headers: {'Content-Type': "application/json;charset=utf-8"},
-  timeout: 1000000 // 请求超时时间(10秒)
+  baseURL: '/api',//process.env.BASE_API, // 定义后端/api前缀
+  timeout: 1000000, // 请求超时时间(10秒)
+  headers: {
+    
+  },
 });
 
 // request拦截器,请求前拦截处理
 service.interceptors.request.use(
   config => {
     if (cookie.get("token")) {
-      
-      // config.headers.accessToken = cookie.get("token");
       // config.headers['token'] = cookie.get("token");
-      // config.headers.Authorization = cookie.get("token");
-      // config.headers['content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-      // request.headers.set('token', cookie.get("token"));
+      config.headers.common['token']  = cookie.get("token");
     }
     return config;
   },
@@ -39,9 +36,9 @@ service.interceptors.response.use(
     const res = response.data;
     if (res.code !== 20000) {
       Toast.fail(res.message);
-      //token无效处理
+      //token无效处理,跳转到登录页
       if (res.code == 23004) {
-        router.push({path: '/login'})
+        router.push({path: '/login'});
       }
       return Promise.reject('error');
     } else {

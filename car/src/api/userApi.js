@@ -10,12 +10,12 @@ export default {
             params: data
         })
     },
-
     //获取token
-    getToken() {
+    findCarByUserId(data) {
         return request({
-            url: 'users/getToken',
-            method: 'post'
+            url: 'users/findCarByUserId',
+            method: 'post',
+            params: data
         });
     },
 }

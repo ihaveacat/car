@@ -46,6 +46,7 @@ export default {
             //后台加载数据
             API.pageFindPersonList({page: this.page, limit: this.limit}).then(res => {
                 if (res.data.data && res.data.data.length > 0) {
+                    Notify({message: '点击列表加入', duration: 500});
                     var arr = res.data.data;
                     arr.forEach(function(item) {
                         that.list.push({
@@ -67,7 +68,7 @@ export default {
                 }
             })
         },
-        //屏幕下拉出发函数
+        //屏幕下拉触发函数
         onRefresh() {
             this.list = [];
             this.page = -10;
@@ -88,7 +89,7 @@ export default {
         }
     },
     mounted() {
-        Notify({message: '点击列表加入', duration: 500});
+        
     }
 }
 </script>

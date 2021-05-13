@@ -14,7 +14,7 @@
 //引入资源
 import Vue from 'vue';
 import Vant from 'vant';
-import userApi from '@/api/userApi'
+import auth from '@/utils/auth.js';
 Vue.use(Vant);
 import 'vant/lib/index.css';
 
@@ -37,22 +37,14 @@ export default {
     //发布信息
     release() {
       if (this.index == 0) {
-        this.$router.push({path: '/editFindPerson', query: {userId: 'ididididi'}});
+        this.$router.push({path: '/editFindPerson', query: {userId: auth.getId()}});
       } else {
         console.log('发布找车信息');
       }
     }
   },
   created() {
-    //判断token，没有token跳转到登录页
-    // userApi.getToken().then(res => {
-    //   if (res.data) {
-    //     this.$router.push({path: '/login'});
-    //   }
-    // }).catch(err => {
-    //   //请求后台错误处理
-    //   console.log("500")
-    // });
+    
   },
   mounted() {
 

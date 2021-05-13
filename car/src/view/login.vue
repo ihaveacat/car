@@ -6,11 +6,10 @@
       <van-col span="8">
         <van-image width="100%" height="100%" round src="/static/images/car.png" @click.native="carClick"/>
       </van-col>
-      <van-col span="8"></van-col>
-      
+    <van-col span="8"></van-col>
     </van-row>
     <van-form @submit="onSubmit">
-      <van-field v-model="username" type='' name="username" label="用户名" placeholder="1~8个字符"
+      <van-field v-model="username" name="username" label="用户名" placeholder="1~8个字符"
         :rules="[{pattern: userPattern, message: '请输入正确内容'}]" />
       <van-field v-model="password" type="password" name="password" label="密码" placeholder="6~12个字符"
         :rules="[{pattern: passwordPattern, message: '请输入正确内容'}]" />
@@ -45,6 +44,7 @@ export default {
     onSubmit() {
       userApi.login({username: this.username, password: this.password}).then(res => {
         auth.setToken(res.data.token);
+        auth.setId(res.data.id);
         this.$router.push({path: '/'});
       });
     },

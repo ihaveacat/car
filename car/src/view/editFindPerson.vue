@@ -10,6 +10,7 @@
 import Vue from 'vue';
 import Vant from 'vant';
 import { Dialog } from 'vant';
+import carApi from '@/api/carApi'
 Vue.use(Vant);
 import 'vant/lib/index.css';
 // import * as util from '@/assets/util.js';
@@ -18,7 +19,7 @@ export default {
     //数据
     data() {
         return {
-
+            
         }
     },
     //方法
@@ -33,22 +34,18 @@ export default {
     },
     //创建时函数
     created() {
-        //判断人员id
-        if (this.$route.query.userId) {
-            //无车
-            if (1 != 1) {
+        var userId = this.$route.query.userId;
+        carApi.findCarByUserId({userId: userId}).then(res => {
+            if (res.data.data.length < 1) {
                 Dialog.confirm({
-                    // title: "标题",
                     message: "你还没有登记车哎！还不整一辆去？"
-                }).then(() => {//确认
+                }).then(() => {
                     this.$router.push({path: '/carMaintain'});
-                }).catch(() => {//取消
+                }).catch(() => {
                     this.$router.push({path: '/'});
-                })
+                });
             }
-        } else {
-            //没有id错误
-        }
+        });
     },
     //渲染完函数
     mounted() {
